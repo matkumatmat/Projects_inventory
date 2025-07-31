@@ -46,9 +46,7 @@ def create_app(config_name):
         # Atur level logging keseluruhan untuk aplikasi.
         # Ini berarti app.logger akan memproses pesan INFO, WARNING, ERROR, CRITICAL.
         # Namun, hanya yang ERROR ke atas yang akan ditulis ke file_handler.
-        app.logger.setLevel(logging.ERROR) 
-        app.logger.setLevel(logging.WARNING) 
-        app.logger.setLevel(logging.CRITICAL) 
+        app.logger.setLevel(logging.WARNING)
         
         # Opsional: Jika Anda ingin juga melihat log di konsol saat production (misal di Docker logs),
         # Anda bisa menambahkan StreamHandler juga, atau pastikan environment production Anda
