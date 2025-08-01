@@ -8,16 +8,18 @@ class ProductClass(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     classification = db.Column(db.String(50), unique=True, nullable=False)
     temperature = db.Column(db.String(50), nullable=True)
+    products = db.relationship("Product", back_populates="product_class")
+
 
 class Product(db.Model):
     __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
-    erp_id = db.Column(db.String(50), db.ForeignKey('product_classes.id'),nullable=False)
+    erp_id = db.Column(db.String(50), unique=True, nullable=False)
     name = db.Column(db.String(255), nullable=False)
     manufacturer = db.Column(db.String(255), nullable=True)
     nie = db.Column(db.String(100), nullable=False)
-    product_class_id = db.Column(db.Integer,)
-    product_class = db.relationship("ProductClass", back_populates="productClass", cascade="all, delete-oprhan")
+    product_class_id = db.Column(db.Integer, db.ForeignKey('product_classes.id'))
+    product_class = db.relationship("ProductClass", back_populates="products")
     batches = db.relationship("ProductBatch", back_populates="product", cascade="all, delete-orphan")
     prices = db.relationship("ProductPrice", back_populates="product", cascade="all, delete-orphan")
 
@@ -25,7 +27,8 @@ class ProductBatch(db.Model):
     __tablename__ = 'product_batches'
 
     id = db.Column(db.Integer, primary_key=True)
-    batch_number = db.Column(db.String(100),db.ForeignKey('products.id'), nullable=False, unique=True)
+    batch_number = db.Column(db.String(100), nullable=False, unique=True)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
     expiry_date = db.Column(db.Date)
     manufacture_date = db.Column(db.Date)
     receipt_date = db.Column(db.Date, default=datetime.date.today)

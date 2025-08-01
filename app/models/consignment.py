@@ -1,5 +1,5 @@
 # app/models/consignment.py
-from ..extensions import db
+from app.utils.extensions import db
 
 class Consignment(db.Model):
     """Mencatat setiap item yang dikirim secara konsinyasi."""

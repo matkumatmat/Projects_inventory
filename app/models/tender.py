@@ -1,5 +1,5 @@
 # app/models/tender.py
-from ..extensions import db
+from app.utils.extensions import db
 
 class Tender(db.Model):
     """Tabel 'Pivot' atau Ledger untuk setiap kontrak Tender."""
@@ -11,10 +11,10 @@ class Tender(db.Model):
     total_qty = db.Column(db.Integer, nullable=False)
     realized_qty = db.Column(db.Integer, default=0, nullable=False)
     remaining_qty = db.Column(db.Integer, nullable=False)
-    
-    # --- KUNCI LOKASI ---
-    # Mencatat di rak mana saja stok untuk tender ini berada.
-    # Disimpan sebagai JSON untuk fleksibilitas.
-    rack_locations = db.Column(db.JSON, nullable=True)
 
-    product_batch = db.relationship("ProductBatch")
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.remaining_qty = self.total_qty
+
+    product_batch = db.relationship("ProductBatch", backref="tenders")
+    tender_items = db.relationship("TenderItem", back_populates="tender", cascade="all, delete-orphan")

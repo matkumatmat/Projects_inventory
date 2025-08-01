@@ -1,5 +1,7 @@
 # app/models/warehouse.py
-from ..extensions import db
+from app.utils.extensions import db
+from .tender import Tender
+from .consignment import Consignment
 
 class Warehouse(db.Model):
     __tablename__ = 'warehouses'
@@ -25,12 +27,18 @@ class StockLocation(db.Model):
     __tablename__ = 'stock_locations'
     id = db.Column(db.Integer, primary_key=True)
     quantity = db.Column(db.Integer, nullable=False)
+
+    # Foreign Keys
     product_batch_id = db.Column(db.Integer, db.ForeignKey('product_batches.id'), nullable=False)
     rack_id = db.Column(db.Integer, db.ForeignKey('racks.id'), nullable=True, comment="NULL jika di palet")
-    
-    # --- KUNCI ATURAN RAK ---
-    # Mencatat untuk alokasi apa stok ini. Format: 'TENDER-CONTRACT123' atau 'REGULER'
-    allocation_identity = db.Column(db.String(255), default='REGULER', nullable=False)
+    tender_id = db.Column(db.Integer, db.ForeignKey('tenders.id'), nullable=True)
+    consignment_id = db.Column(db.Integer, db.ForeignKey('consignments.id'), nullable=True)
 
-    product_batch = db.relationship("ProductBatch")
+    # Status Stok
+    status = db.Column(db.String(50), default='REGULER', nullable=False, index=True, comment="REGULER, ALLOCATED_TENDER, CONSIGNED")
+
+    # Relationships
+    product_batch = db.relationship("ProductBatch", backref="stock_locations")
     rack = db.relationship("Rack", back_populates="stock_locations")
+    tender = db.relationship("Tender", backref="stock_locations")
+    consignment = db.relationship("Consignment", backref="stock_locations")

@@ -10,8 +10,9 @@ import datetime
 # app/services/product_services.py
 # Fokus: Definisi Produk, Batch, dan Laporan per Produk
 
-from ..models import *
-from ..extensions import db
+from app.models.product import *
+from app.models.warehouse import *
+from app.utils.extensions import db
 from sqlalchemy import func
 import datetime
 

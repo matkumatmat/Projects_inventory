@@ -39,6 +39,7 @@ class PackingSlip(db.Model):
     packer_code = db.Column(db.String(100), nullable=True)
     checker_staff = db.Column(db.String(100), nullable=True)
 
+    # --- Relasi ke Shipment Order (Pengiriman per Customer) ---
     shipment_order_id = db.Column(db.Integer, db.ForeignKey('shipment_orders.id'), unique=True)
     shipment_order = db.relationship('ShipmentOrder', back_populates='packing_slip')
 

@@ -1,11 +1,11 @@
- 
-# app/models/__init__.py
+# --- backend/app/models/__init__.py ---
 
-# --- Impor semua model dari file product_models.py ---
-from .product import *
-
-# --- Impor semua model dari file warehouse_models.py ---
-from .warehouse import *
+# Impor semua model dari setiap file agar mudah diakses dari 'app.models'
 from .user import *
+from .product import *
 from .outbound import *
-# --- Opsional: Bikin list __all__ biar lebih rapi ---
+from .shipment import *
+from .warehouse import *
+from .consignment import *
+from .tender import *
+from .tender_item import *

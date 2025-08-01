@@ -10,7 +10,7 @@ class UserRegistrationSchema(Schema):
     username = fields.String(required=True, validate=validate.Length(min=3, max=80))
     email = fields.Email(required=True, validate=validate.Length(max=120))
     password = fields.String(required=True, validate=validate.Length(min=6))
-    role = fields.String(validate=validate.OneOf(['guest', 'admin', 'superadmin']), missing='guest')
+    role = fields.String(validate=validate.OneOf(['guest', 'admin', 'superadmin']), load_default='guest')
     nik = fields.String(required=False, validate=validate.Length(max=50)) # NIK bisa opsional saat registrasi manual
 
 class UserLoginSchema(Schema):
