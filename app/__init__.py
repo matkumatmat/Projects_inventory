@@ -61,8 +61,11 @@ def create_app(config_name):
 
     from .blueprints.auth.routes import auth_bp
     app.register_blueprint(auth_bp)
-    from .blueprints.admin.inbound.routes import inbound_bp
+
+    # Blueprint baru untuk Inbound
+    from .blueprints.inbound import inbound_bp
     app.register_blueprint(inbound_bp)
+
     from .blueprints.admin.view.routes import stock_view_bp
     app.register_blueprint(stock_view_bp)
 
