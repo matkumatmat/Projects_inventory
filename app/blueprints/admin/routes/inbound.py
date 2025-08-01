@@ -1,18 +1,16 @@
-# app/blueprints/inbound/routes.py
+# app/blueprints/admin/routes/inbound.py
 from flask import request, jsonify
 from marshmallow import ValidationError
-from flask_jwt_extended import jwt_required
 
-from . import inbound_bp
-from .schemas import InboundSchema
-from .services import InboundService
+from .. import admin_bp
+from ..schemas.inbound_schema import InboundSchema
+from ..services.inbound_service import InboundService
 
-@inbound_bp.route('/receive', methods=['POST'])
-@jwt_required()
+@admin_bp.route('/inbound/receive', methods=['POST'])
 def receive_batch():
     """
     Endpoint untuk menerima batch produk baru.
-    Memerlukan otentikasi JWT.
+    Otentikasi dan otorisasi sudah ditangani oleh decorator di __init__.py blueprint.
     """
     json_data = request.get_json()
     if not json_data:
@@ -32,6 +30,5 @@ def receive_batch():
     return jsonify({
         "message": "Batch received successfully",
         "batch_id": batch.id,
-        "product_id": batch.product_id,
         "initial_stock_location_id": batch.stock_locations[0].id
     }), 201

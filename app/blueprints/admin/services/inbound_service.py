@@ -1,4 +1,4 @@
-# app/blueprints/inbound/services.py
+# app/blueprints/admin/services/inbound_service.py
 from app.models import Product, ProductBatch, ProductClass, StockLocation
 from app.utils.extensions import db
 
@@ -47,7 +47,6 @@ class InboundService:
                 product_batch_id=new_batch.id,
                 quantity=new_batch.receipt_qty,
                 status='REGULER'
-                # rack_id default NULL (di palet)
             )
             db.session.add(initial_stock)
 
